@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en" class="no-js">
 <head>
@@ -6,7 +5,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link href='http://fonts.googleapis.com/css?family=Jaldi:700,400' rel='stylesheet' type='text/css'>
-
 	<link rel="stylesheet" href="../static/css/reset.css">
 	<link rel="stylesheet" href="../static/css/query.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,7 +14,6 @@
 	<title>Advanced Database Mongodb</title>
 </head>
 <body>
-
 	<section class="cd-slider-wrapper">
 		<ul class="cd-slider">
 			<li class="visible">
@@ -29,63 +26,58 @@
 			<li>
 				<div>
 					<h2>Query user viewing information {{ question1 }}</h2>
-
 					<div class="UserQuery" >
 					<form id ="form_q1" method="post">
 						<div class="form-group">
 						  <input name='userID' class="form-control" id="UserID" >
-						  <small id="q1Help" class="form-text text-muted" style="color: #FFFFFF!important;">According to the user ID, search the movie name and rating and rating of the user watched, sort by time from new to old, give the top three tags of the movie and the relevance score</small>
-						  <button id="btn_q1" type="button" class="btn btn-primary">Submit</button>
+						  <small id="q1Help" class="form-text text-muted" style="color: #FFFFFF!important;">According to the user ID, search the movie name, rating, and top 3 tags with relevance. Sorted by newest first.</small>
 						</div>
 					</form>
 				</div>
-					<div id="result_q1" class="Result"  class="pre-scrollable table-responsive"  >
-					</div>
+					<div id="result_q1" class="Result" class="pre-scrollable table-responsive"></div>
 				</div>
 			</li>
 
 			<li>
 				<div>
-					<h2>Search keywords Movie</h2>
+					<h2>Search Movies by Keyword</h2>
 					  <div class="UserQuery">
 						<form>
 							<div class="form-group">
 							  <input type="email" class="form-control" id="KeyWord">
-							  <small id="q2Help" class="form-text text-muted" style="color: #FFFFFF!important;">Based on the keywords entered, we will search for the movies with the keywords in the movie title</small>
+							  <small id="q2Help" class="form-text text-muted" style="color: #FFFFFF!important;">Search movies whose titles contain the entered keyword.</small>
 							</div>
 							<button id="btn_q2" type="button"  class="btn btn-primary">Submit</button>
 						  </form>
 						</div>
-						<div id="result_q2"class="Result"  class="pre-scrollable table-responsive"  >
-							</div>
+						<div id="result_q2" class="Result" class="pre-scrollable table-responsive"></div>
 				</div>
 			</li>
 
 			<li>
 				<div>
-					<h2>Find the most popular movies</h2>
+					<h2>Query Most Popular Movies</h2>
 					<div class="UserQuery">
 						<form>
 							<div class="form-group">
 							  <input type="email" class="form-control" id="Style">
-							  <small id="q3Help" class="form-text text-muted" style="color: #FFFFFF!important;">Find the 20 most popular movies for a certain style</small>
+							  <small id="q3Help" class="form-text text-muted" style="color: #FFFFFF!important;">Query top 20 highest-rated movies in a specific genre</small>
 							</div>
 							<button id="btn_q3" type="button"  class="btn btn-primary">Submit</button>
 						  </form>
 						</div>
-						<div id="result_q3"class="Result"  class="pre-scrollable table-responsive"  >
-							</div>
+						<div id="result_q3" class="Result" class="pre-scrollable table-responsive"></div>
 				</div>
 			</li>
 		</ul> 
 		
 		<ol class="cd-slider-navigation">
-			<li class="selected"><a href="#0"><em>首页</em></a></li>
+			<li class="selected"><a href="#0"><em>Home</em></a></li>
 			<li><a href="#0"><em>Item 1</em></a></li>
 			<li><a href="#0"><em>Item 2</em></a></li>
 			<li><a href="#0"><em>Item 3</em></a></li>
 		</ol>
-		
+
 		<div class="cd-svg-cover" data-step1="M1402,800h-2V0.6c0-0.3,0-0.3,0-0.6h2v294V800z" data-step2="M1400,800H383L770.7,0.6c0.2-0.3,0.5-0.6,0.9-0.6H1400v294V800z" data-step3="M1400,800H0V0.6C0,0.4,0,0.3,0,0h1400v294V800z" data-step4="M615,800H0V0.6C0,0.4,0,0.3,0,0h615L393,312L615,800z" data-step5="M0,800h-2V0.6C-2,0.4-2,0.3-2,0h2v312V800z" data-step6="M-2,800h2L0,0.6C0,0.3,0,0.3,0,0l-2,0v294V800z" data-step7="M0,800h1017L629.3,0.6c-0.2-0.3-0.5-0.6-0.9-0.6L0,0l0,294L0,800z" data-step8="M0,800h1400V0.6c0-0.2,0-0.3,0-0.6L0,0l0,294L0,800z" data-step9="M785,800h615V0.6c0-0.2,0-0.3,0-0.6L785,0l222,312L785,800z" data-step10="M1400,800h2V0.6c0-0.2,0-0.3,0-0.6l-2,0v312V800z">
 			<svg height='100%' width="100%" preserveAspectRatio="none" viewBox="0 0 1400 800">
 				<title>SVG cover layer</title>
@@ -93,7 +85,6 @@
 				<path id="cd-changing-path" d="M1402,800h-2V0.6c0-0.3,0-0.3,0-0.6h2v294V800z"/>
 			</svg>
 		</div>
-
 	</section>
 
 <script src="../static/js/jquery-2.1.4.js"></script>

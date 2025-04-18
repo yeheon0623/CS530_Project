@@ -5,11 +5,13 @@ import mongoengine
 import pymongo
 
 # # 数据库连接函数
+# 数据库连接函数
 def connectDatabase():
     # client = pymongo.MongoClient('mongodb://169.254.79.112:27017/')      # 服务器地址
     client = pymongo.MongoClient('mongodb://localhost:27017/')              # 本地地址
-    db = client['local']
+    db = client['movielens_db']  # ✅ 正确的数据库名
     return db
+
 
 
 # links集合

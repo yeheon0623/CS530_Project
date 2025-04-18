@@ -1,18 +1,19 @@
-<table class="table pre-scrollable" >
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">title</th>
-        <th scope="col">average_rating</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for item in data %}
-        <tr>
-                <th scope="row">{{ item.num }}</th>
-                <td>{{ item.title }}</td>
-                <td>{{ item.average_rating }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
+<table class="table pre-scrollable">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Average Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in data %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ item.title }}</td>
+      <td>{{ item.average_rating }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
