@@ -1,16 +1,38 @@
-<table class="table pre-scrollable" >
+<div style="max-width: 900px; margin: 0 auto;">
+  <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">title</th>
+        <th>#</th>
+        <th>Title</th>
+        <th>IMDb</th>
+        <th>TMDB</th>
       </tr>
     </thead>
     <tbody>
-        {% for item in data %}
-        <tr>
-                <th scope="row">{{ item.num }}</th>
-                <td>{{ item.title }}</td>
-        </tr>
-      {% endfor %}				
+      {% for item in data %}
+      <tr>
+        <td>{{ item.num }}</td>
+        <td>{{ item.title }}</td>
+        <td>
+          {% if item.imdb %}
+            <a href="{{ item.imdb }}" target="_blank">IMDb</a>
+          {% endif %}
+        </td>
+        <td>
+          {% if item.tmdb %}
+            <a href="{{ item.tmdb }}" target="_blank">TMDB</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
     </tbody>
-</table>
+  </table>
+
+  {% if data %}
+    <div class="pagination" style="text-align:center; margin-top:1rem;">
+      {% for p in pages %}
+        <button class="btn btn-sm btn-outline-light btn-page" data-page="{{ p }}">{{ p|add:1 }}</button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

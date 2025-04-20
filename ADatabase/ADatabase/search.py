@@ -1,11 +1,11 @@
-# # 数据库相关操作，本次大作业的三个任务的查询代码在该文件夹实现
+# # Database related operations, the query codes for the three tasks of this major assignment are implemented in this folder
 from ADatabase.database import *
 import pprint
 import operator
 import time
 
-# 任务一
-# 根据用户ID，搜索用户所看的电影名字和评分及评分，按时间从新到旧排序，给出电影的前三个标签及关联度评分
+# Task 1
+# Based on the user ID, search for the names and ratings of the movies watched by the user, sort them from new to old, and give the top three tags and relevance ratings of the movies
 def missionOne(userId):
 
     ratings = Ratings()
@@ -28,8 +28,6 @@ def missionOne(userId):
     list_dict_tag_relevance = []
     query1 = {"userId":userId }
 
-
-    # 得到movieId
     for y in ratings.ratings.find(query1):
         movieId.append(y["movieId"])
         print("执行7")
@@ -37,37 +35,31 @@ def missionOne(userId):
 
     print("movieId：",movieId)
 
-
-
-    # 要把重复的 movieId去掉，时间消耗约0.00003，忽略不计
     movieId_remove_duplicate_value = list(set(movieId))
     print("movieId_remove_duplicate_value:")
     print(movieId_remove_duplicate_value)
 
 
 
-    # 整理成dict形式
+    # arrange into dict form
     i = 0
     for x in  movieId_remove_duplicate_value:
 
         query2 = {"movieId": x}
         query3 = {"movieId": x,"userId": userId}
 
-        # 得到title
         for y in movies.movies.find(query2):
             title.append(y["title"])
-            # print("y = ",y)
-        # 从ratings中得到timestamp
+
         for y in ratings.ratings.find(query2):
             timestamp.append(y["timestamp"])
 
-        # 得到此movieId的rating
         for y in ratings.ratings.find(query3):
             rating.append(y["rating"])
             print(y["rating"])
 
 
-        # 得到tagId和relevance 并排序，得到前三个  形式如：{'relevance': 0.036250000000000004, 'tag': 805}
+        # Get tagId and relevance and sort them to get the first three. The format is as follows: {'relevance': 0.036250000000000004, 'tag': 805}
         query4 = {"movieId": x}
         for y in genome_scores.genome_scores.find(query4):
             r = y["relevance"]
@@ -83,8 +75,6 @@ def missionOne(userId):
 
         tag_relevance = sorted_list_dict_tag_relevance[:3]
 
-
-        #"timestamp":
         result.append({"timestamp": timestamp[i], "title": title[i],
                        "rating": rating[i], "tags_relevance": tag_relevance})
 
@@ -94,7 +84,7 @@ def missionOne(userId):
     sorted_result = sorted(result, key=operator.itemgetter('timestamp'), reverse=True)
 
 
-    # 给result加上序号
+    # Add a sequence number to the result
     i =  1
     for x in sorted_result:
         sorted_result[i-1]["num"] = i
@@ -113,32 +103,26 @@ def missionOne(userId):
 
 
 
-# 任务二
-# 根据输入的关键词，查询电影名字里有关键词的电影
-def missionTwo(keyword):
-    query1 = {"title": {"$regex": keyword,"$options":"i"}}  # 正则表达式,i表示忽略大小写
+# Task 2
+# Based on the input keywords, search for movies with keywords in their titles
+def missionTwo(keyword, page=0):
+    from ADatabase.database import Movies
+    movies_col = Movies().movies
 
-    movies = Movies()
-    title = []
-    result = []
-    i = 1
+    results = movies_col.find(
+        {"title": {"$regex": keyword, "$options": "i"}},
+        {"title": 1, "movieId": 1}
+    ).skip(page * 20).limit(20)
 
-    print("======movies-title=======")
-    for x in movies.movies.find(query1):
-        dict = {"title":x["title"],"num":i}
-        i = i + 1
-        result.append(dict)
-
-
-    pprint.pprint(result)
-    return result
+    return list(results)
 
 
 
 
 
-# 任务三
-# 查询某一风格最受欢迎的20部电影（选做）
+
+# Task 3
+# Query the 20 most popular movies of a certain style (optional)
 def missionThree(type):
 
     movies = Movies()
@@ -149,7 +133,7 @@ def missionThree(type):
     genome_tags = GenomeTags()
 
     query1 = {"genres": type}
-    query3 = {"genres": {"$regex": type,"$options":"i"}}  #正则表达式，i表示忽略大小写
+    query3 = {"genres": {"$regex": type,"$options":"i"}}
     query4 = {"movieId": 4}
     query5 = {"tagId": 1}
     query6 = {"movieId": 422}
@@ -159,7 +143,6 @@ def missionThree(type):
     print("=======movies======")
 
 
-    # 在movies中得到符合条件的movieId
     movieId = []
     title = []
     i=0
@@ -175,7 +158,7 @@ def missionThree(type):
 
 
 
-    #在ratings表中对每一个movieId求average_rating
+    #Find the average_rating for each movieId in the ratings table
     print("=======ratings======")
     movieId_averagerating_list = []
     for x in movieId:
@@ -190,12 +173,12 @@ def missionThree(type):
 
         time_end2 = time.time()
         print(time_end2 - time_start1)
-        # 这一步之前时间消耗很长,主要消耗在从表中查数据的时间，每查一次大概需要9s
+        # This step takes a long time, mainly because it takes time to query data from the table. Each query takes about 9 seconds.
 
-        # 求average_ratings
+        # Find average_ratings
         sum = 0
 
-        # 评分不足10条的，按照0来算
+        # If the rating is less than 10, it will be counted as 0
         if (len(rating) <= 10):
             average_rating = 0
         else:
@@ -205,22 +188,22 @@ def missionThree(type):
 
 
 
-        # 保留两位小数
+        # Keep two decimal places
         average_rating = round(average_rating, 2)
         print("average_rating = %.2f" % average_rating)
 
 
 
-        # 得到title
+        #Get title
         for y in movies.movies.find(query7):
             title = y["title"]
 
-        # 创建字典类型dict
+        # Create a dictionary type dict
         movieId_averagerating_dict = {"movieId": x, "average_rating": average_rating, "title": title}
         movieId_averagerating_list.append(movieId_averagerating_dict)
 
 
-    # 根据average_ratings 排序
+    # Sort by average_ratings
     sorted_movieId_averageratings_list = sorted(movieId_averagerating_list,
                                                 key=operator.itemgetter('average_rating'),
                                                 reverse=True)
@@ -229,15 +212,70 @@ def missionThree(type):
     print("%s 类型一共有 %d 部电影"%(type,account))
     result = sorted_movieId_averageratings_list[:20]
 
-    # 给result加上序号1-20
+    # Add sequence numbers 1-20 to result
     i =  1
     for x in result:
         result[i-1]["num"] = i
         i = i+1
 
 
-    # 打印最受欢迎的前20部电影
+    # Print the top 20 most popular movies
     pprint.pprint(result)
 
     return result
 
+def missionFour(text, page=0):
+    from ADatabase.database import Movies, GenomeTags, GenomeScores
+    movies_col = Movies().movies
+    genome_tags_col = GenomeTags().genome_tags
+    genome_scores_col = GenomeScores().genome_scores
+
+    start = page * 20
+    end = start + 20
+
+    # --- 1. Exact + prefix title match ---
+    exact_matches = list(movies_col.find(
+        {"title": {"$regex": f"^{text}$", "$options": "i"}},
+        {"title": 1, "movieId": 1}
+    ))
+
+    prefix_matches = list(movies_col.find(
+        {"title": {"$regex": f"^{text}", "$options": "i"}},
+        {"title": 1, "movieId": 1}
+    ))
+
+    # --- 2. Full-text title match ---
+    text_matches = list(movies_col.find(
+        {"$text": {"$search": text}},
+        {"score": {"$meta": "textScore"}, "title": 1, "movieId": 1}
+    ).sort([("score", {"$meta": "textScore"})]))
+
+    # --- 3. Genome relevance-based matches ---
+    matching_tags = genome_tags_col.find({"tag": {"$regex": text, "$options": "i"}})
+    tag_ids = [t["tagId"] for t in matching_tags]
+
+    genome_matches = []
+    if tag_ids:
+        score_matches = genome_scores_col.find({
+            "tagId": {"$in": tag_ids},
+            "relevance": {"$gte": 0.6}
+        })
+
+        movie_ids = list({score["movieId"] for score in score_matches})
+        genome_matches = list(movies_col.find(
+            {"movieId": {"$in": movie_ids}},
+            {"title": 1, "movieId": 1}
+        ))
+
+    # --- 4. Merge all results with deduplication ---
+    all_ids = set()
+    prioritized = []
+
+    for group in [exact_matches, prefix_matches, text_matches, genome_matches]:
+        for doc in group:
+            mid = doc.get("movieId")
+            if mid and mid not in all_ids:
+                prioritized.append(doc)
+                all_ids.add(mid)
+
+    return prioritized[start:end]

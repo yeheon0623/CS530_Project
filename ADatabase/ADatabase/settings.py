@@ -13,7 +13,7 @@ SECRET_KEY = 'h$r&*p%2huefje*q#k*d9l$ibf+da&&z_r*cfjyv)pd4vl$&a-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 # Application definition
 connect('local')
 INSTALLED_APPS = [
@@ -23,6 +23,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    'channels',
+    'dpd_static_support',
 ]
 
 MIDDLEWARE = [
@@ -33,6 +36,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_plotly_dash.middleware.BaseMiddleware',
 ]
 
 ROOT_URLCONF = 'ADatabase.urls'
@@ -109,3 +113,20 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(HERE, 'static/'),
 )
+
+STATIC_ROOT = os.path.join(HERE, 'staticfiles/')
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  #Needed so it wont crash, dummy databse
+        'NAME': BASE_DIR + '/dummy.sqlite3',
+    }
+}
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_plotly_dash.finders.DashComponentFinder', 
+]

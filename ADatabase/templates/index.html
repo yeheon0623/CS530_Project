@@ -25,34 +25,42 @@
 			
 			<li>
 				<div>
-					<h2>Query user viewing information {{ question1 }}</h2>
-					<div class="UserQuery" >
-					<form id ="form_q1" method="post">
-						<div class="form-group">
-						  <input name='userID' class="form-control" id="UserID" >
-						  <small id="q1Help" class="form-text text-muted" style="color: #FFFFFF!important;">According to the user ID, search the movie name, rating, and top 3 tags with relevance. Sorted by newest first.</small>
-						</div>
+				  <h2>Query user viewing information</h2>
+				  <div class="UserQuery">
+					<form id="form_q1" onsubmit="return false;">
+					  <div class="form-group">
+						<input name="UserID" class="form-control" id="UserID" placeholder="Enter User ID">
+						<button id="btn_q1" type="button" class="btn btn-primary">Submit</button>
+						<small class="form-text text-muted" style="color: #FFFFFF!important;">
+						  View analytics for a user ID including scores, genres, and recommendations.
+						</small>
+					  </div>
 					</form>
+				  </div>
+			  
+				  <div id="result_q1" class="Result pre-scrollable table-responsive" style="margin-top: 1rem;"></div>
 				</div>
-					<div id="result_q1" class="Result" class="pre-scrollable table-responsive"></div>
-				</div>
-			</li>
+			  </li>
+			  
+			  
 
-			<li>
-				<div>
-					<h2>Search Movies by Keyword</h2>
-					  <div class="UserQuery">
-						<form>
-							<div class="form-group">
-							  <input type="email" class="form-control" id="KeyWord">
-							  <small id="q2Help" class="form-text text-muted" style="color: #FFFFFF!important;">Search movies whose titles contain the entered keyword.</small>
-							</div>
-							<button id="btn_q2" type="button"  class="btn btn-primary">Submit</button>
-						  </form>
-						</div>
-						<div id="result_q2" class="Result" class="pre-scrollable table-responsive"></div>
+			  <li>
+				<div style="max-width: 700px; margin: 0 auto; padding: 1rem;">
+				  <h2 style="text-align: center;">Query 2: Search Movies by Keyword</h2>
+			  
+				  <form method="POST" class="form-group" onsubmit="return false;">
+					<label for="KeyWord">Movie Title</label>
+					<input type="text" name="KeyWord" id="KeyWord" placeholder="e.g. Matrix" class="form-control" style="width: 100%; margin-bottom: 0.5rem;">
+			  
+					<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+					  <button type="button" id="btn_q2_basic" class="btn btn-primary" style="min-width: 150px;">Search (Basic)</button>
+					  <button type="button" id="btn_q2_fts" class="btn btn-primary" style="min-width: 150px;">Search (Full Text)</button>
+					</div>
+				  </form>
+			  
+				  <div id="result_q2" class="Result table-responsive pre-scrollable" style="margin-top: 1rem;"></div>
 				</div>
-			</li>
+			  </li>
 
 			<li>
 				<div>
@@ -91,5 +99,6 @@
 <script src="../static/js/snap.svg-min.js"></script>
 <script src="../static/js/main.js"></script>
 <script src="../static/js/query.js"></script> 
+
 </body>
 </html>
